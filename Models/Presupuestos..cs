@@ -13,8 +13,12 @@ public class Presupuestos {
 
     // Métodos
 
-    public float MontoPresupuesto() {
-
-        return 0;
+    public float MontoPresupuesto() {  
+        float monto = 0; 
+        foreach (var item in detalle)
+        {
+            monto += item.Cantidad * item.Producto.Precio;
+        }
+        return monto;
     }
 }
