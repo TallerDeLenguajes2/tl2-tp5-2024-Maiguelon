@@ -21,7 +21,7 @@ public class ProductosRepository : IProductosRepository
     public List<Productos> GetAll()
     {
         var productos = new List<Productos>();
-        string queryString = "SELECT idProducto, Descripcion, Precio FROM Productos";
+        string query = "SELECT * FROM Productos";
 
         try
         {
@@ -29,44 +29,68 @@ public class ProductosRepository : IProductosRepository
             {
                 connection.Open();
 
-                using (var command = new SqliteCommand(queryString, connection))
+                using (var command = new SqliteCommand(query, connection))
                 {
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            productos.Add(new Productos
+                            var producto = new Productos
                             {
-                                IdProducto = reader.GetInt32(0), 
-                                Descripcion = reader.GetString(1), 
-                                Precio = reader.GetInt32(2) 
-                            });
+                                IdProducto = Convert.ToInt32(reader["idProducto"]),
+                                Descripcion = reader["Descripcion"].ToString(),
+                                Precio = Convert.ToInt32(reader["Precio"])
+                            };
+
+                            productos.Add(producto);
                         }
                     }
-
                 }
-
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error al obtener productos: {ex.Message}");
         }
+
         return productos;
     }
 
+
     public void Add(Productos producto)
     {
-        throw new NotImplementedException();
+        using (SqliteConnection connection = new SqliteConnection(ConnectionString))
+        {
+            var query = "INSERT INTO Productos (Descripcion, Precio) VALUES (@Descripcion, @Precio)";
+            connection.Open();
+            var command = new SqliteCommand(query, connection);
+            command.Parameters.Add(new SqliteParameter("@Descripcion", producto.Descripcion));
+            command.Parameters.Add(new SqliteParameter("@Precio", producto.Precio));
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
     }
 
     public void Update(int id, Productos producto)
     {
+        using (SqliteConnection connection = new SqliteConnection(ConnectionString))
+        {
+            string query = "UPDATE Productos SET Descripcion = @Descripcion, Precio = @Precio WHERE idProducto = @id";
+            connection.Open();
+
+            var command = new SqliteCommand(query, connection);
+            command.Parameters.Add(new SqliteParameter("@Descripcion", producto.Descripcion));
+            command.Parameters.Add(new SqliteParameter("@Precio", producto.Precio));
+            command.Parameters.Add(new SqliteParameter("@id", id));
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
         throw new NotImplementedException();
     }
 
     public Productos GetById(int id)
     {
+        // Productos producto = null;
         throw new NotImplementedException();
     }
 
