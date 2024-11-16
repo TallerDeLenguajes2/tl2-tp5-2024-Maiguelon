@@ -2,7 +2,7 @@ public class Presupuestos {
         private int idPresupuesto;
         private string nombreDestinatario;
         private List<PresupuestosDetalle> detalle;
-        Presupuestos()
+        public Presupuestos()
         {
             detalle = new List<PresupuestosDetalle>();
         }
@@ -21,4 +21,19 @@ public class Presupuestos {
         }
         return monto;
     }
-}
+
+    public float MontoPresupuestoConIva() {
+        float montoIva;
+        montoIva = MontoPresupuesto() + MontoPresupuesto() * 0.21;
+        return montoIva;
+    }
+
+    public int CantidadProductos() {
+        int cantidad = 0;
+        foreach (var item in detalle)
+        {
+            cantidad += item.Cantidad;
+        }
+        return cantidad;
+    }
+}   
