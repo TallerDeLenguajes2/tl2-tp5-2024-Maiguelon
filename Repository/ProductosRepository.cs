@@ -90,13 +90,49 @@ public class ProductosRepository : IProductosRepository
 
     public Productos GetById(int id)
     {
-        // Productos producto = null;
-        throw new NotImplementedException();
+        Productos producto = null;
+
+        using (SqliteConnection connection = new SqliteConnection(ConnectionString))
+        {
+            string query = "SELECT idProducto, Descripcion, Precio FROM Productos WHERE idProducto = @id";
+            connection.Open();
+
+            var command = new SqliteCommand(query, connection);
+            command.Parameters.Add(new SqliteParameter("@id", id));
+
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    producto = new Productos
+                    {
+                        IdProducto = Convert.ToInt32(reader["idProducto"]),
+                        Descripcion = reader["Descripcion"].ToString(),
+                        Precio = Convert.ToInt32(reader["Precio"])
+                    };
+                }
+            }
+
+            connection.Close();
+        }
+
+        return producto;
     }
+
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        using (SqliteConnection connection = new SqliteConnection(ConnectionString))
+        {
+            string query = "DELETE FROM Productos WHERE idProducto = @id";
+            connection.Open();
+
+            var command = new SqliteCommand(query, connection);
+            command.Parameters.Add(new SqliteParameter("@id", id));
+
+            command.ExecuteNonQuery(); // Ejecuta el comando de eliminación
+            connection.Close();
+        }
     }
 
 }
