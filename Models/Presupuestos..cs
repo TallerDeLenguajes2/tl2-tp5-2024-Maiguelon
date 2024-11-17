@@ -1,15 +1,14 @@
+namespace Models;
 public class Presupuestos {
         private int idPresupuesto;
         private string nombreDestinatario;
+        private DateTime fechaCreacion;
         private List<PresupuestosDetalle> detalle;
-        public Presupuestos()
-        {
-            detalle = new List<PresupuestosDetalle>();
-        }
-
+  
     public List<PresupuestosDetalle> Detalle { get => detalle; set => detalle = value; }
     public int IdPresupuesto { get => idPresupuesto; set => idPresupuesto = value; }
     public string NombreDestinatario { get => nombreDestinatario; set => nombreDestinatario = value; }
+    public DateTime FechaCreacion { get => fechaCreacion; set => fechaCreacion = value; }
 
     // Métodos
 
