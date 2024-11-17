@@ -130,7 +130,7 @@ public class ProductosRepository : IProductosRepository
             var command = new SqliteCommand(query, connection);
             command.Parameters.Add(new SqliteParameter("@id", id));
 
-            command.ExecuteNonQuery(); // Ejecuta el comando de eliminación
+            command.ExecuteNonQuery(); 
             connection.Close();
         }
     }

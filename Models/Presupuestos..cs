@@ -24,7 +24,7 @@ public class Presupuestos {
 
     public float MontoPresupuestoConIva() {
         float montoIva;
-        montoIva = MontoPresupuesto() + MontoPresupuesto() * 0.21;
+        montoIva = MontoPresupuesto() + MontoPresupuesto() * 0.21f;
         return montoIva;
     }
 
