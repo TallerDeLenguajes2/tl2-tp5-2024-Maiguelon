@@ -108,10 +108,8 @@ public class ProductoRepository
                     productoBuscado.Precio = Convert.ToInt32(reader["Precio"]);
                 }
             }
-
             connection.Close();
         }
-
         return productoBuscado;
     }
 
