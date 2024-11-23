@@ -67,13 +67,13 @@ public class PresupuestosRepository
             SqliteCommand command = new SqliteCommand(queryString, connection);
             connection.Open();
 
-            command.Parameters.Add(new SqliteParameter("@idPresupeusto", idBuscado));
+            command.Parameters.Add(new SqliteParameter("@idPresupuesto", idBuscado));
 
             using (SqliteDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    presupuestoBuscado.IdPresupuesto = Convert.ToInt32(reader["idProducto"]);
+                    presupuestoBuscado.IdPresupuesto = Convert.ToInt32(reader["idPresupuesto"]);
                     presupuestoBuscado.FechaCreacion = Convert.ToDateTime(reader["FechaCreacion"]);
                     presupuestoBuscado.NombreDestinatario = Convert.ToString(reader["NombreDestinatario"]);
                 }
@@ -83,7 +83,7 @@ public class PresupuestosRepository
         return presupuestoBuscado;
     }
 
-    public void DetallarPresupesto(int idBuscado, int idProducto, int cantidad)
+    public void DetallarPresupuesto(int idBuscado, int idProducto, int cantidad)
     {
         string queryString = "INSERT INTO PresupuestosDetalle (idPresupuesto, idProducto, Cantidad) VALUES (@idBuscado, @idProducto, @Cantidad)";
 
@@ -112,11 +112,11 @@ public class PresupuestosRepository
             connection.Open();
 
             SqliteCommand commandDetalle = new SqliteCommand(queryString, connection);
-            commandDetalle.Parameters.Add(new SqliteParameter("@idPresupuesto", idABorrar));
+            commandDetalle.Parameters.Add(new SqliteParameter("@idABorrar", idABorrar));
             commandDetalle.ExecuteNonQuery();
 
             SqliteCommand commandPresupuesto = new SqliteCommand(queryStringRequiem, connection);
-            commandPresupuesto.Parameters.Add( new SqliteParameter("@idPresupuesto", idABorrar));
+            commandPresupuesto.Parameters.Add( new SqliteParameter("@idABorrar", idABorrar));
             commandPresupuesto.ExecuteNonQuery();
 
             connection.Close();

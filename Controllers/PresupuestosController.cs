@@ -27,22 +27,22 @@ public class PresupuestosController : ControllerBase
    [HttpPost("AgregarDetalle/{idBuscado}/ProductoDetalle")]
    public ActionResult AgregarDetalle(int idBuscado, int idProducto, int cantidad)
    {
-      presupuestosRepository.DetallarPresupesto(idBuscado, idProducto, cantidad);
+      presupuestosRepository.DetallarPresupuesto(idBuscado, idProducto, cantidad);
       return Ok();
    }
 
    [HttpGet("ListarPresupuestos")]
    public ActionResult<List<Presupuestos>> ListarPresupuestos()
    {
-      presupuestosRepository.ListarPresupuestos();
-      return Ok();
+      var presupuestos = presupuestosRepository.ListarPresupuestos();
+      return Ok(presupuestos);
    }
 
    [HttpGet("BuscarPresupuesto/{idBuscado}")]
    public ActionResult<Presupuestos> ObtenerPresupuesto(int idBuscado)
    {
-      presupuestosRepository.BuscarPresupuesto(idBuscado);
-      return Ok();
+      var presupuesto = presupuestosRepository.BuscarPresupuesto(idBuscado);
+      return Ok(presupuesto);
    }
 
    [HttpDelete("EliminarPresupuesto/{idBuscado}")]
